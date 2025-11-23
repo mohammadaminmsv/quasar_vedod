@@ -1,1 +1,15 @@
 /* app global css */
+
+.vazirmatn-amin {
+  font-family: 'Vazirmatn', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.el-messiri {
+  font-family: 'El Messiri', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}

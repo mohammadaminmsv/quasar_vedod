@@ -1,22 +1,25 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh LpR fFf">
+    <q-header elevated class="vazirmatn-amin bg-blue-10">
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleRightDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title> داشبورد امین </q-toolbar-title>
+        <div>v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
+    <q-drawer v-model="leftDrawerOpen" :mini-width="220" width="220" show-if-above elevated>
+      <q-list class="q-gutter-y-md" padding tag="div">
         <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
+
+    <q-footer elevated class="vazirmatn-amin bg-blue-10">
+      <q-toolbar>
+        <q-toolbar> داشبورد امین </q-toolbar>
+      </q-toolbar>
+    </q-footer>
 
     <q-page-container>
       <router-view />
@@ -30,52 +33,52 @@ import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
+    title: 'آمار کاربران',
+    caption: 'تعداد کاربران بازدید کننده',
+    icon: 'groups',
+    to: 'userStatistics',
+    link: '/userStatistics',
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
+    title: 'نظر سنجی',
+    caption: 'نظرات و نظر دهی',
+    icon: 'trending_up',
+    to: 'surveyStatistics',
+    link: '/surveyStatistics',
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
+    title: 'هواشناسی',
+    caption: 'مروری بر آسمان',
+    icon: 'cloud',
+    to: 'WeatherStatistics',
+    link: '/WeatherStatistics',
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
+    title: 'خرید و فروش',
+    caption: 'گزارش سفارشات و درآمد',
+    icon: 'storefront',
+    to: 'IncomeStatistics',
+    link: '/IncomeStatistics',
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
+    title: 'بورس',
+    caption: 'نگاهی به بازار های مالی',
+    icon: 'currency_exchange',
+    to: 'StockStatistics',
+    link: '/StockStatistics',
   },
   {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
+    title: 'سلامت و پزشکی',
+    caption: 'وضعیت بهداشت و درمان',
+    icon: 'medical_services',
+    to: 'HealthStatistics',
+    link: '/HealthStatistics',
   },
 ]
 
 const leftDrawerOpen = ref(false)
 
-function toggleLeftDrawer() {
+function toggleRightDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
