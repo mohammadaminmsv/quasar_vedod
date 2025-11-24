@@ -3,7 +3,7 @@
 
 import { defineConfig } from '#q-app/wrappers'
 
-export default defineConfig((/* ctx */) => {
+export default defineConfig(( /*ctx*/ ) => {
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -12,7 +12,9 @@ export default defineConfig((/* ctx */) => {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
-      'Protection'
+      'Protection',
+      'notify',
+      'Graphgl'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
@@ -48,7 +50,10 @@ export default defineConfig((/* ctx */) => {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+       env: {
+        GRAPHQL_URI:'/graphql',
+        API_KEY: '6924bab11c64b95488dde46c' 
+       },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -76,6 +81,15 @@ export default defineConfig((/* ctx */) => {
     devServer: {
       // https: true,
       open: true, // opens browser window automatically
+      '/graphql': {
+          target: 'https://rdb-simpledb.restdb.io',
+          changeOrigin: true,
+          secure: false,
+          headers: {
+            'x-apikey': process.env.RESTDB_API_KEY,
+            'Content-Type': 'application/json'
+          }
+        },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
@@ -97,8 +111,8 @@ export default defineConfig((/* ctx */) => {
       plugins: [
          'Notify',    
          'Loading',  
-          'Dialog',    
-          'LocalStorage',
+         'Dialog',    
+         'LocalStorage',
       ],
     },
 

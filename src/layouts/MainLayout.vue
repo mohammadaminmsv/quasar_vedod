@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh LpR fFf">
+  <q-layout view="hHh Lpr lfr">
     <q-header elevated class="vazirmatn-amin bg-blue-10">
       <q-toolbar v-if="authStore.isAuthenticated">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleRightDrawer" />
@@ -21,7 +21,9 @@
         </div>
       </q-toolbar>
     </q-header>
-
+    <q-page-scroller position="bottom-left" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="primary" />
+    </q-page-scroller>
     <q-drawer
       v-if="authStore.isAuthenticated"
       v-model="leftDrawerOpen"
