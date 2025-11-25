@@ -1,10 +1,20 @@
 <template>
-  <q-layout view="hHh Lpr lfr">
+  <q-layout view="hHh Lpr fff">
     <q-header elevated class="vazirmatn-amin bg-blue-10">
       <q-toolbar v-if="authStore.isAuthenticated">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleRightDrawer" />
 
         <q-toolbar-title> داشبورد {{ authStore.user?.name }} </q-toolbar-title>
+        <div class="q-gutter-xs">
+          <q-btn
+            icon="login"
+            push
+            aria-label="logedOut"
+            label="خروج"
+            color="green"
+            @click="logOut"
+          />
+        </div>
       </q-toolbar>
       <q-toolbar v-else>
         <q-toolbar-title> آمار دهی سیستم ها </q-toolbar-title>
@@ -54,9 +64,11 @@
 import { useAuthStore } from 'src/stores/auth'
 import { ref, onMounted } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import { useRouter } from 'vue-router'
 
 const authStore = useAuthStore()
 const version = ref('0.0.1')
+const router = useRouter()
 onMounted(() => {
   authStore.FirstCheck()
 })
@@ -109,5 +121,10 @@ const leftDrawerOpen = ref(authStore.isAuthenticated)
 
 function toggleRightDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
+}
+
+const logOut = () => {
+  authStore.logedOutAct()
+  router.push('/login')
 }
 </script>

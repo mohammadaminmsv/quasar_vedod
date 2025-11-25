@@ -5,10 +5,9 @@ export default ({ router }) => {
     const authStore = useAuthStore()
     
     authStore.FirstCheck()
-    
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
       next('/login')
-    } else if ((to.path === '/login' || to.path === '/register') && authStore.isAuthenticated) {
+    } else if ((to.path === '/Login' || to.path === '/Register') && authStore.isAuthenticated) {
       next('/')
     } else {
       next()

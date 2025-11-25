@@ -1,5 +1,9 @@
 <template>
-  <q-form class="flex justify-center el-messiri q-my-xl items-center">
+  <q-form
+    @reset="resetModel"
+    @submit="onSubmit"
+    class="flex justify-center el-messiri q-my-xl items-center"
+  >
     <div class="q-gutter-y-sm">
       <div class="row q-gutter-x-md">
         <q-input
@@ -40,7 +44,7 @@
         dense
         filled
         type="tel"
-        v-model="model.tel"
+        v-model="model.phone"
         label="شماره تلفن"
         maxlength="11"
         :rules="[
@@ -79,7 +83,7 @@
         <q-input
           dense
           filled
-          type="password"
+          :type="showTPas ? 'password' : 'text'"
           v-model="model.password"
           label="رمز"
           :rules="[
@@ -88,11 +92,19 @@
             (val) => /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(val) || 'رمز عبور باید شامل حرف و عدد باشد',
           ]"
           no-error-icon
-        />
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="showTPas ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="showTPas = !showTPas"
+            />
+          </template>
+        </q-input>
         <q-input
           dense
           filled
-          type="password"
+          :type="showSPas ? 'password' : 'text'"
           v-model="rePassword"
           label="تکرار رمز"
           :rules="[
@@ -100,14 +112,30 @@
             (val) => val === model.password || 'رمز عبور و تکرار آن مطابقت ندارند',
           ]"
           no-error-icon
-        />
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="showSPas ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="showSPas = !showSPas"
+            />
+          </template>
+        </q-input>
       </div>
       <q-toggle v-model="toggleRule" label="قوانین ثبت نام ثبول دارم" />
       <div class="q-gutter-x-md">
-        <q-btn :disable="!toggleRule" color="pink" text-color="black" push @click="showMessage"
+        <q-btn
+          type="submit"
+          :disable="!toggleRule"
+          color="pink"
+          text-color="black"
+          push
+          @click="showMessage"
           >ثبت نام</q-btn
         >
-        <q-btn color="grey-5" text-color="black" push @click="showMessage">پاک کردن</q-btn>
+        <q-btn type="reset" color="grey-5" text-color="black" push @click="showMessage"
+          >پاک کردن</q-btn
+        >
         <router-link class="text-subtitle1 text-blue-grey-8 q-pa-md rounded-borders" to="/login"
           >قبلا ثبت نام کردم!</router-link
         >
@@ -118,38 +146,68 @@
 
 <script setup>
 import { useQuasar } from 'quasar'
+import { insertUser } from 'src/requests/user'
+import { useAuthStore } from 'src/stores/auth'
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const authStore = useAuthStore()
+const router = useRouter()
 const $q = useQuasar()
 const showMessage = () => {
   console.log($q)
-  $q.notify({
-    type: 'info',
-    message: 'This is a "info" type notification.',
-  })
-  $q.notify({
-    type: 'warning',
-    message: 'This is a "warning" type notification.',
-  })
-  $q.notify({
-    type: 'positive',
-    message: 'This is a "positive" type notification.',
-  })
-  $q.notify({
-    type: 'negative',
-    message: 'This is a "negative" type notification.',
-  })
 }
 
 const toggleRule = ref(false)
 const rePassword = ref('')
-const model = reactive({
+const showTPas = ref(true)
+const showSPas = ref(true)
+const defaultModel = {
   name: '',
   lastname: '',
   email: '',
   age: '',
   password: '',
-  tel: '',
+  phone: '',
   gender: 'male',
+}
+const model = reactive({
+  ...defaultModel,
 })
+
+const resetModel = () => {
+  Object.assign(model, {
+    ...defaultModel,
+  })
+}
+
+const onSubmit = async () => {
+  $q.loading.show({
+    message: 'در حال بارگیری لطفا صبر کنید',
+  })
+  try {
+    const respone = await insertUser(model)
+    if (respone) {
+      authStore.registerAct()
+      router.push('/')
+      $q.notify({
+        type: 'positive',
+        message: 'عملیات ثبت نام موفق بود',
+      })
+    } else {
+      $q.notify({
+        type: 'negative',
+        message: 'عملیات ثبت نام غیر موفق بود',
+      })
+    }
+  } catch (error) {
+    console.log(error)
+    $q.notify({
+      type: 'negative',
+      message: 'خطا در سرویس رخ داده',
+    })
+  } finally {
+    $q.loading.hide()
+  }
+}
 </script>

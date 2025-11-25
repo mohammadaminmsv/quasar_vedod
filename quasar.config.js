@@ -51,8 +51,7 @@ export default defineConfig(( /*ctx*/ ) => {
       // publicPath: '/',
       // analyze: true,
        env: {
-        GRAPHQL_URI:'/graphql',
-        API_KEY: '6924bab11c64b95488dde46c' 
+        GRAPHQL_URI:'https://management-ap-south-1.hygraph.com/graphql'
        },
       // rawDefine: {}
       // ignorePublicFolder: true,
