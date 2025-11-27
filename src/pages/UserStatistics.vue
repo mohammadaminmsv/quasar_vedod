@@ -143,7 +143,7 @@ const showUserBirth = async () => {
     message: 'در حال بارگیری لطفا صبر کنید',
   })
   try {
-    user.value = await getUserForCharts(total.value.value)
+    user.value = await getUserForCharts(total.value.value || 10)
     const monthCounts = Array(12).fill(0)
 
     user.value.users
@@ -165,7 +165,7 @@ const showUserGender = async () => {
     message: 'در حال بارگیری لطفا صبر کنید',
   })
   try {
-    const { data } = await userGender(totalGender.value.value)
+    const { data } = await userGender(totalGender.value.value || 10)
     const maleCounts = Array(12).fill(0)
     const femaleCounts = Array(12).fill(0)
 
