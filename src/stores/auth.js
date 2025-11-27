@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', {
       const user = localStorage.getItem('user')
       if (isLoggedIn && user) {
         this.isLoggedIn = isLoggedIn
-        this.user = user
+        this.user = JSON.parse(user) 
       }
     },
   },

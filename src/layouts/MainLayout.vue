@@ -3,8 +3,8 @@
     <q-header elevated class="vazirmatn-amin bg-blue-10">
       <q-toolbar v-if="authStore.isAuthenticated">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleRightDrawer" />
+        <q-toolbar-title> داشبورد {{ userName }} </q-toolbar-title>
 
-        <q-toolbar-title> داشبورد {{ authStore.user?.name }} </q-toolbar-title>
         <div class="q-gutter-xs">
           <q-btn
             icon="login"
@@ -62,7 +62,7 @@
 
 <script setup>
 import { useAuthStore } from 'src/stores/auth'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import { useRouter } from 'vue-router'
 
@@ -71,6 +71,7 @@ const version = ref('0.0.1')
 const router = useRouter()
 onMounted(() => {
   authStore.FirstCheck()
+  console.log(authStore.user)
 })
 const linksList = [
   {
@@ -116,6 +117,10 @@ const linksList = [
     link: '/HealthStatistics',
   },
 ]
+
+const userName = computed(() => {
+  return authStore.user?.name || 'نام نامشخص'
+})
 
 const leftDrawerOpen = ref(authStore.isAuthenticated)
 

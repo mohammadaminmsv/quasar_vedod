@@ -33,7 +33,6 @@ export const requestUserByEmail = async (email) => {
 export const insertUser = async (data) => {
   let res
   try {
-    console.log(data)
     res = await apolloClient.mutate({
       mutation: USER_MUTATIONS.CREATE_USER,
       variables: { data, },
@@ -42,6 +41,21 @@ export const insertUser = async (data) => {
   } catch (errors) {
     console.log(errors)
     console.log(res)
+    return false
+  }
+}
+
+export const userGender = async (limit) => {
+  let res
+  try {
+     res = await apolloClient.query({
+      query: USER_QUERIES.GET_ALL_USERS_Gender,
+      fetchPolicy: 'network-only',
+       variables: { limit },
+    })
+    return res
+  } catch (error) {
+    console.log(error)
     return false
   }
 }

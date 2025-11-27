@@ -10,9 +10,19 @@ export const USER_QUERIES = {
         email
         phone
         age
+        gender
       }
     }
   `,
+  GET_ALL_USERS_Gender: gql`
+  query GetUsers($limit: Int!) {
+    myUser(first: $limit) {
+      id
+      age
+      gender
+    }
+  }
+`,
 
   GET_USER_BY_ID: gql`
     query GetUserById($id: ID!) {
@@ -24,6 +34,7 @@ export const USER_QUERIES = {
         phone
         age
         password
+        gender
       }
     }
   `,
@@ -37,6 +48,7 @@ export const USER_QUERIES = {
     phone
     age
     password
+    gender
   }
 }
   `,

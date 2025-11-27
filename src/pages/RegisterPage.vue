@@ -14,6 +14,7 @@
           label="نام"
           :rules="[(val) => !!val || '']"
           no-error-icon
+          class="col-grow"
         />
         <q-input
           dense
@@ -23,6 +24,7 @@
           label="نام خانوادگی"
           :rules="[(val) => !!val || '']"
           no-error-icon
+          class="col-grow"
         />
       </div>
       <q-input
@@ -188,7 +190,7 @@ const onSubmit = async () => {
   try {
     const respone = await insertUser(model)
     if (respone) {
-      authStore.registerAct()
+      authStore.registerAct(respone.createMyUsers)
       router.push('/')
       $q.notify({
         type: 'positive',
